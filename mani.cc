@@ -51,10 +51,23 @@ void changeValve(char change, double wait)
 //初期位置を指定する関数
 void initializePosture(double wait)
 {
-	sendAngles(0, 103, 76, -89,0,1000/*初期姿勢をどこにするかGUIで確認*/);
+	sendAngles(-30, 103, 76, -89,0,1000/*初期姿勢をどこにするかGUIで確認*/);
 	usleep((int)(wait*1000));
 }
-
+//最後に自分で突っついてドミノを倒す動作
+//運動学を解かないと調整が面倒くさい
+void layDomino's(int * last_angle)
+{
+	
+	//J1だけ変数としているので、J1を使う。
+	//j1そのままに、高さを20mm程上げて、手前か奥に5~10mm程平行移動。その後J1を数度+する。
+		
+ 	sendAngles(last_angle, 103, 76, -89,0,1000/*初期姿勢をどこにするかGUIで確認*/);
+	
+	//matlabで行列を解けばいいんだっけ
+	//腕の長さを取らないと運動学解けなくね
+	//腕のデータが出ていないみたいなので、仕方なく決め打ち
+}
 
 //メイン処理
 int main(int argc, char const* argv[])//この引数にはどこからデータを入れるのか
@@ -100,6 +113,8 @@ int main(int argc, char const* argv[])//この引数にはどこからデータ�
 			//各引数を一定値ずつ変更する
 
 		}
+
+		lay_Domino's(J);
 		
 		initializePosture(1000);//元の位置に戻る
 		printf("終了\n");
